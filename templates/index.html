@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NETRouter</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='assets/favicon.png') }}">
+</head>
+<body>
+    <form id="backup-form" action="/" method="post">
+        <h1>Backup dos MikroTik</h1>
+        
+        {% if mensagem_sucesso %}
+            <div class="alert alert-success" role="alert">
+                {{ mensagem_sucesso }}
+            </div>
+        {% elif mensagem_erro %}
+            <div class="alert alert-error" role="alert">
+                {{ mensagem_erro }}
+            </div>
+        {% endif %}
+        
+        <label for="empresa">Empresa:</label>
+        <input type="text" id="empresa" name="empresa" required><br><br>
+        
+        <label for="marca">Marca:</label>
+        <input type="text" id="marca" name="marca" required><br><br>
+        
+        <label for="ip">IP do Equipamento:</label>
+        <input type="text" id="ip" name="ip" required><br><br>
+        
+        <label for="port">Porta SSH:</label>
+        <input type="number" id="port" name="port" required><br><br>
+        
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required><br><br>
+        
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required><br><br>
+        
+        <div class="form-buttons">
+            <button type="submit" id="submit-button">Enviar Backup</button>
+            <a href="{{ url_for('logout') }}" id="logout-button">Logout</a>
+        </div>
+        <div id="loading" class="loading"></div>
+    </form>       
+    <div class="right-side">
+        <h2>Equipamentos Cadastrados</h2>
+        <ul>
+            {% if equipamentos %}
+                {% for equipamento in equipamentos %}
+                    <li>
+                        <div class="info">
+                            <strong>IP:</strong> <span>{{ equipamento.ip }}</span>
+                            <strong>Porta:</strong> <span>{{ equipamento.port }}</span>
+                            <strong>Username:</strong> <span>{{ equipamento.username }}</span>
+                            <strong>Identidade:</strong> <span>{{ equipamento.identity }}</span>
+                        </div>
+                    </li>
+                {% endfor %}
+            {% else %}
+                <p>Nenhum equipamento cadastrado.</p>
+            {% endif %}
+        </ul>
+    </div>
+    
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
